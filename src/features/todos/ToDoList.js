@@ -1,59 +1,45 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectToDO, addToDo, removeToDo, saveToDo } from "./todoSlice";
-import { nextId } from "../util/Util";
+import { selectToDo, addToDo, removeTodo, saveToDo } from "./todoSlice";
+import { nanoid } from "@reduxjs/toolkit";
 
-const uniqueId = nextId(2);
+const uniqueId = nanoid;
 
 export default function ToDoList(props) {
-  const todos = useSelector(selectToDO);
+  const todos = useSelector(selectToDo);
   const dispatch = useDispatch();
-  const [newItem, setNewItem] = useState();
+  const [newItem, setNewItem] = useState("");
 
-  const addToDoHandler = () => {
-    console.log("new item ", newItem);
+  const addHandler = () => {
+    console.log("New Item ", newItem);
     let payload = {
       id: uniqueId(),
-      text: newItem,
+      title: newItem,
     };
-    dispatch(addToDo(payload));
+    let action = addToDo(payload);
+    console.log("Action ", action);
+    dispatch(action);
     setNewItem("");
-  };
-  const removeToDoHandler = (toDoItem) => {
-    dispatch(removeToDo(toDoItem));
   };
   const saveHandler = () => {
     dispatch(saveToDo(uniqueId()));
   };
+  const removeToDoHandler = (toDoItem) => {
+    dispatch(removeTodo(toDoItem));
+  };
   return (
-    <>
-      <div>
-        {todos.map((item) => {
-          return (
-            <div key={item.id}>
-              {item.text}
-              <button
-                type={"button"}
-                className={"btn btn-danger"}
-                onClick={() => removeToDoHandler(item)}
-              >
-                Delete
-              </button>
-            </div>
-          );
-        })}
-      </div>
+    <div>
       <div>
         <input
           type={"text"}
           className={"form-control"}
           value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
+          onChange={(event) => setNewItem(event.target.value)}
         />
         <button
           type={"button"}
           className={"btn btn-primary"}
-          onClick={addToDoHandler}
+          onClick={addHandler}
         >
           Add
         </button>
@@ -65,6 +51,20 @@ export default function ToDoList(props) {
           Save
         </button>
       </div>
-    </>
+      {todos.map((item) => {
+        return (
+          <div key={item.id}>
+            {item.title} &nbsp;
+            <button
+              type={"button"}
+              className={"btn btn-danger"}
+              onClick={() => removeToDoHandler(item)}
+            >
+              Remove
+            </button>
+          </div>
+        );
+      })}
+    </div>
   );
 }
