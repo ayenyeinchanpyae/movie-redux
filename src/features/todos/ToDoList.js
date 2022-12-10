@@ -7,6 +7,7 @@ const uniqueId = nanoid;
 
 export default function ToDoList(props) {
   const todos = useSelector(selectToDo);
+  console.log("todos", todos);
   const dispatch = useDispatch();
   const [newItem, setNewItem] = useState("");
 

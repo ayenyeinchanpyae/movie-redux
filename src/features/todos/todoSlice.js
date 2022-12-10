@@ -14,6 +14,7 @@ const initialState = {
   ],
   loading: false,
 };
+
 export const saveToDo = createAsyncThunk("todos/saveToDo", async (id) => {
   console.log("SaveToDo ", id);
   const response = await saveToDoApi(id);
@@ -21,11 +22,13 @@ export const saveToDo = createAsyncThunk("todos/saveToDo", async (id) => {
   console.log("Response ", response);
   return response;
 });
+
 export const fetchAllToDo = createAsyncThunk("todos/fetchAllToDo", async () => {
   const response = await apiFetchAllTodos();
   console.log("Fetch all Response ", response);
   return response;
 });
+
 export const todoSlice = createSlice({
   name: "todos",
   initialState,
@@ -56,6 +59,7 @@ export const todoSlice = createSlice({
       });
   },
 });
+
 export const { addToDo, removeTodo } = todoSlice.actions;
 export const selectToDo = (state) => state.todos.items;
 export const selectToDoLoading = (state) => state.todos.loading;

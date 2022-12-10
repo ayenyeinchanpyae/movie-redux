@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import "./index.css";
 import ToDoListPage from "./pages/ToDoListPage";
+import MovieListPage from "./pages/MovieListPage";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -18,6 +19,7 @@ root.render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="todos" element={<ToDoListPage />} />
+          <Route path="movies" element={<MovieListPage />} />
         </Routes>
       </Router>
     </Provider>
